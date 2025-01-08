@@ -1,12 +1,14 @@
-const express = require("express");
-const multer = require("multer");
+import http from 'http'
+import express from "express"
+import path from 'path'
 
 const app = express();
-const PORT = 3000;
-app.get('/', (req, res)=>{
-    res.send("hii");
-})
+const server = http.createServer(app);
+app.use(express.static(path.resolve('./public')))
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+const PORT = 5000;
+
+server.listen(PORT, ()=>{
+    console.log("server is running on the port 5000");
+    
+})
