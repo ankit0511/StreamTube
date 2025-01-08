@@ -2,6 +2,8 @@ const userVideo = document.getElementById("user-video");
 const startButton = document.getElementById("start-btn");
 
 const state = { media : null}
+const socket = io()
+
 startButton.addEventListener("click",()=>{
 // here we have to record the media steam of the user and  the conver this to binary so that we can transfer this for TCP protocol
 const mediaRecorder = new MediaRecorder(state.media,{
@@ -17,6 +19,8 @@ mediaRecorder.ondataavailable = (e)=>{
 
     // this is the recorded data and we have to push this data to our backend usign WEB SOCKETS
  console.log("Data Availabe",e.data);
+//  we are sending our data on socket in form of binary stream 
+ socket.emit('binarystream', e.data)
 }
 mediaRecorder.start(25)
 
