@@ -7,6 +7,7 @@ RUN /usr/bin/apt-get update && \
     /usr/bin/apt-get upgrade -y && \
     /usr/bin/apt-get install -y nodejs ffmpeg
 
+    # this is home diractory 
 WORKDIR /home/app
 
 RUN npm i -g nodemon
