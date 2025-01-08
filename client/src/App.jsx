@@ -1,13 +1,27 @@
+import './App.css';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from './Components/Home';
+import Stream from './Components/Stream';
 
-import './App.css'
+const router = createBrowserRouter([
+
+  {
+    path: "/",
+    element : <Home/>
+
+  },
+
+  {
+    path: "/stream",
+    element : <Stream/>
+  },
+
+])
 
 function App() {
-  
   return (
-    <> 
-    <div className='text-2xl'>Hi From FrontEnd </div>
-    </>
-  )
+    <RouterProvider router={router}/> 
+  );
 }
 
-export default App
+export default App;
