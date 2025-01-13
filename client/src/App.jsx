@@ -1,26 +1,21 @@
-import './App.css';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from './Components/Home';
-import Stream from './Components/Stream';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import StreamingApp from './Components/StreamingApp';
+import PlatformsPage from './Components/PlatformsPage';
+import StreamingDetails from './Components/StreamingDetails';
 
-const router = createBrowserRouter([
-
-  {
-    path: "/",
-    element : <Home/>
-
-  },
-
-  {
-    path: "/stream",
-    element : <Stream/>
-  },
-
-])
 
 function App() {
   return (
-    <RouterProvider router={router}/> 
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/stream" element={<StreamingApp />} />
+        <Route path="/platforms" element={<PlatformsPage />} />
+        <Route path = "/streaming-details" element={<StreamingDetails/>}/>
+      </Routes>
+    </Router>
   );
 }
 

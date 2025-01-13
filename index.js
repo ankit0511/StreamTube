@@ -8,9 +8,16 @@ import { Server as SocketIO } from 'socket.io';
 // Create the express app
 const app = express();
 
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+app.set('views', path.resolve('./views')); // Ensure 'views' points to the correct directory
+
+// Serve static files (e.g., CSS, JS) from the 'public' folder
+app.use(express.static(path.resolve('./public')));
+
 // Enable CORS for HTTP requests
 app.use(cors({
-  origin: "http://localhost:5173",  // Allow frontend at localhost:5173 to access the backend
+  origin: "http://localhost:5173", // Allow frontend at localhost:5173 to access the backend
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
 }));
@@ -21,15 +28,15 @@ const server = http.createServer(app);
 // Set up CORS for WebSocket connections (via Socket.io)
 const io = new SocketIO(server, {
   cors: {
-    origin: "http://localhost:5173",  // Allow WebSocket connections from this origin
+    origin: "http://localhost:5173", // Allow WebSocket connections from this origin
     methods: ['GET', 'POST'],
   },
 });
 
 // FFmpeg options for streaming to Facebook
 const options = [
-  '-i', 
-  '-', 
+  '-i',
+  '-',
   '-c:v', 'libx264',
   '-preset', 'ultrafast',
   '-tune', 'zerolatency',
@@ -45,7 +52,7 @@ const options = [
   '-b:a', '128k',
   '-ar', '44100',
   '-f', 'flv',
-  'rtmps://live-api-s.facebook.com:443/rtmp/FB-627535606385447-0-Ab10b1sHiHjVlCs5_B5GGuKo'
+  'rtmp://a.rtmp.youtube.com/live2/jmgp-5fbp-79gb-sjk6-0dpa'
 ];
 
 // Spawn the FFmpeg process
@@ -79,8 +86,14 @@ io.on("connection", (socket) => {
   });
 });
 
-// Serve static files
-app.use(express.static(path.resolve('./public')));
+// Routes to render EJS templates
+app.get('/', (req, res) => {
+  res.render('index'); // Render the 'index.ejs' file
+});
+
+app.get('/stream', (req, res) => {
+  res.render('stream', { title: 'Streaming App' }); // Render the 'stream.ejs' file
+});
 
 // Start the server
 const PORT = 5000;
